@@ -118,36 +118,51 @@ class OrderController extends Controller
     public function verify(Order $order, Request $request)
     {
         DB::beginTransaction();
+
         try {
-            $order->verify($request->get('orderId'));
+            $order->verify($order->id);
             $order->save();
-            $sign = hash(
-                'sha384',
-                json_encode([
-                    'sessionId' => (string)$order->id,
-                    'merchantId' => 259640,
-                    'amount' => $order->getPrice() * 100,
-                    "currency" => "PLN",
-                    'crc' => 'f68aa7d7522f2307',
-                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-            );
+
+            $signData = [
+                'sessionId' => (string) $order->id,
+//                'merchantId'=> 259640,
+                'orderId'   => (int) $order->id,
+                'amount'    => (int) round($order->getPrice() * 100, 0),
+                "currency"  => "PLN",
+                'crc'       => 'f68aa7d7522f2307',
+            ];
+            $sign = hash('sha384', json_encode($signData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+            $verifyData = [
+                "merchantId"=> 259640,
+                "posId"     => 259640,
+                "sessionId" => (string) $order->id,
+                "amount"    => (int) round($order->getPrice() * 100, 0),
+                "currency"  => "PLN",
+                'orderId'   => (int) $order->id,
+                "sign"      => $sign,
+            ];
+
+            Log::debug('OrderController::verify data', [
+                '$sign'         => $sign,
+                '$signData'     => $signData,
+                '$verifyData'   => $verifyData,
+            ]);
             $response = Http::withBasicAuth(
                 '259640',
                 '7f704442a9563c9aed97111fa45b8329'
-            )->put('https://sandbox.przelewy24.pl/api/v1/transaction/verify', [
-                "merchantId" => 259640,
-                "posId" => 259640,
-                "sessionId" => (string)$order->id,
-                "amount" => $order->getPrice() * 100,
-                "currency" => "PLN",
-                'orderId' => $request->get('orderId'),
-                "sign" => $sign,
+            )->put('https://sandbox.przelewy24.pl/api/v1/transaction/verify', $verifyData);
+
+            Log::debug('OrderController::verify response', [
+                '$response'                 => $response,
+                '$response->successful()'   => $response->successful(),
             ]);
 
             if ($response->successful()) {
                 $order->save();
+
                 try {
-                Mail::to([$order->user_information['email'], 'polandgroups5@gmail.com'])->send(new OrderVerified($order));
+                    Mail::to([$order->user_information['email'], 'polandgroups5@gmail.com'])->send(new OrderVerified($order));
                 } catch (\Throwable $e) {
                     Log::error('Error sending email: ' . $e->getMessage(), [
                         'error' => $e,
@@ -156,22 +171,43 @@ class OrderController extends Controller
                         'request' => $request->all(),
                     ]);
                 }
+
                 DB::commit();
+
+                try {
+                    Mail::to(['polandgroups5@gmail.com', 'polandgroups5@gmail.com'])->send(new OrderVerified($order));
+                } catch (\Throwable $e) {
+                    Log::error('Error sending admin email: ' . $e->getMessage(), [
+                        'error' => $e,
+                        'traceAsString' => $e->getTraceAsString(),
+                        'trace' => $e->getTrace(),
+                        'request' => $request->all(),
+                    ]);
+                }
+
+                return redirect('https://polandgroups.pl/shop/confirmed?' . http_build_query(['order_id' => $order->id]));
             } else {
                 $order->fresh();
+
                 Log::warning($response->json(),
                     [
                         'order' => $order,
                         'request' => $request->all(),
                     ]);
+
                 DB::rollBack();
+
+                return redirect('https://polandgroups.pl/shop/confirmed?' . http_build_query(['order_id' => $order->id, 'status' => 'error', 'code' => null]));
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage(), [
                 'error' => $e,
                 'trace' => $e->getTraceAsString(),
             ]);
+
             DB::rollBack();
+
+            return redirect('https://polandgroups.pl/shop/confirmed?' . http_build_query(['order_id' => $order->id, 'status' => 'error', 'code' => null]));
 
             throw $e;
         }
