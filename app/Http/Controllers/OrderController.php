@@ -148,6 +148,7 @@ class OrderController extends Controller
                 '$signData'     => $signData,
                 '$verifyData'   => $verifyData,
             ]);
+
             $response = Http::withBasicAuth(
                 '259640',
                 '7f704442a9563c9aed97111fa45b8329'
@@ -211,5 +212,13 @@ class OrderController extends Controller
 
             throw $e;
         }
+    }
+
+    public function notification(Order $order, Request $request)
+    {
+        Log::debug('Nitification', [
+            '$request' => $request->all(),
+            '$order' => $order->toArray(),
+        ]);
     }
 }
