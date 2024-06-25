@@ -65,6 +65,7 @@ class Checkout
 
             Log::debug('Checkout::checkout response', [ '$response' => $response, ]);
 
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
