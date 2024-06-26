@@ -78,16 +78,16 @@ class Checkout
                 ]);
             }
 
-            try {
-                Mail::to([config('mail.from.address'), config('mail.from.address')])->send(new OrderVerified($order));
-            } catch (\Throwable $e) {
-                Log::error('Error sending admin email: ' . $e->getMessage(), [
-                    'error' => $e,
-                    'traceAsString' => $e->getTraceAsString(),
-                    'trace' => $e->getTrace(),
-//                    'request' => $request->all(),
-                ]);
-            }
+//            try {
+//                Mail::to([config('mail.from.address'), config('mail.from.address')])->send(new OrderVerified($order));
+//            } catch (\Throwable $e) {
+//                Log::error('Error sending admin email: ' . $e->getMessage(), [
+//                    'error' => $e,
+//                    'traceAsString' => $e->getTraceAsString(),
+//                    'trace' => $e->getTrace(),
+////                    'request' => $request->all(),
+//                ]);
+//            }
 
             DB::commit();
         } catch (\Exception $e) {
