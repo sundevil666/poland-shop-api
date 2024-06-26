@@ -31,7 +31,7 @@ class OrderVerified extends Mailable
     public function build()
     {
         return $this
-            ->subject('Order Verified ID ' . $this->order->id)
+            ->subject("ID {$this->order->id} Order Verified")
             ->view('mail.orderVerified')
             ;
     }

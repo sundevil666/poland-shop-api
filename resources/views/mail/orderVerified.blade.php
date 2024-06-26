@@ -17,7 +17,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <div>Dzień dobry {{ $order->user_information['fullname'] }}</div>
+                <div>Dzień dobry {{ empty($order->alt_deliver_information) ? $order->deliver_information['fullname'] : $order->alt_deliver_information['fullname'] }}</div>
             </td>
         </tr>
         <tr>
@@ -31,7 +31,7 @@
             <td width="60%">{{$item->product->name}}</td>
             @endforeach
             <td width="10%">--</td>
-            <td width="30">{{$order->getPrice()}} zł</td>
+            <td width="30">{{$order->getClearPrice()}} zł</td>
         </tr>
         <tr>
             <td>Kurier DPD, <strong>(Ulica dom klienta) Zagrodowa 3</strong></td>
@@ -45,7 +45,7 @@
             <td></td>
             <td>
                 <div>__________</div>
-                <div>RAZEM {{$order->getPrice() + $order->getBoxPrice()}} zł</div>
+                <div>RAZEM {{$order->getPrice()}} zł</div>
             </td>
         </tr>
         <tr>

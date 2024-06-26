@@ -39,6 +39,13 @@ class Item extends Model
         return round($this->product->discount ? $price - ($price * $this->product->discount / 100) : $price, 2);
     }
 
+    public function getClearPrice(): float
+    {
+        $price = ($this->product->price * $this->count);
+
+        return round($this->product->discount ? $price - ($price * $this->product->discount / 100) : $price, 2);
+    }
+
     public function boxCount(): int
     {
         $box = $this->product->box;

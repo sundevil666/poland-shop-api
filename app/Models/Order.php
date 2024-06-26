@@ -56,6 +56,17 @@ class Order extends Model
         return round($price, 2);
     }
 
+    public function getClearPrice(): float
+    {
+        $price = null;
+
+        foreach ($this->items as $item) {
+            $price+= $item->getClearPrice();
+        }
+
+        return round($price, 2);
+    }
+
     public function getBoxPrice(): float
     {
         $price = null;
