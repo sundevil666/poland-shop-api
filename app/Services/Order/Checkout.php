@@ -2,11 +2,13 @@
 
 namespace App\Services\Order;
 
+use App\Mail\OrderVerified;
 use App\Models\Order;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Checkout
 {
@@ -65,6 +67,27 @@ class Checkout
 
             Log::debug('Checkout::checkout response', [ '$response' => $response, ]);
 
+            try {
+                Mail::to([$order->user_information['email'], config('mail.from.address')])->send(new OrderVerified($order));
+            } catch (\Throwable $e) {
+                Log::error('Error sending email: ' . $e->getMessage(), [
+                    'error' => $e,
+                    'traceAsString' => $e->getTraceAsString(),
+                    'trace' => $e->getTrace(),
+//                    'request' => $request->all(),
+                ]);
+            }
+
+            try {
+                Mail::to([config('mail.from.address'), config('mail.from.address')])->send(new OrderVerified($order));
+            } catch (\Throwable $e) {
+                Log::error('Error sending admin email: ' . $e->getMessage(), [
+                    'error' => $e,
+                    'traceAsString' => $e->getTraceAsString(),
+                    'trace' => $e->getTrace(),
+//                    'request' => $request->all(),
+                ]);
+            }
 
             DB::commit();
         } catch (\Exception $e) {
