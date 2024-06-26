@@ -17,8 +17,7 @@
         </tr>
         <tr>
             <td colspan="3">
-{{--                <div>Dzień dobry {{ empty($order->alt_deliver_information) ? $order->deliver_information['fullname'] : $order->alt_deliver_information['fullname'] }}</div>--}}
-                <div>Dzień dobry {{ $order->user_information['fullname'] }}</div>
+                <div>Dzień dobry {{ empty($order->alt_deliver_information) ? $order->deliver_information['fullname'] : $order->alt_deliver_information['fullname'] }}</div>
             </td>
         </tr>
         <tr>
