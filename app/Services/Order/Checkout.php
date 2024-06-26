@@ -60,7 +60,7 @@ class Checkout
                 '$checkoutData' => $checkoutData,
             ]);
 
-            $response = Http::withBasicAuth(config('p24.login'), config('p24.password'))->post(config('p24.url'), $checkoutData);
+            $response = Http::withBasicAuth(config('p24.login'), config('p24.password'))->post(config('p24.url') . '/transaction/register', $checkoutData);
 
             Log::debug('Checkout::checkout response', [ '$response' => $response, ]);
 
