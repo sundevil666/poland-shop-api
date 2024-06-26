@@ -2,11 +2,13 @@
 
 namespace App\Services\Order;
 
+use App\Mail\OrderVerified;
 use App\Models\Order;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Checkout
 {
@@ -23,17 +25,17 @@ class Checkout
 
             $signData = [
                 'sessionId'     => (string) $order->id,
-                'merchantId'    => 259640,
+                'merchantId'    => config('p24.login'),
 //                'orderId'       => (int) $order->id,
                 'amount'        => (int) round($order->getPrice() * 100, 0),
                 "currency"      => "PLN",
-                'crc'           => 'f68aa7d7522f2307',
+                'crc'           => config('p24.crc'),
             ];
             $sign = hash('sha384', json_encode($signData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) );
 
             $checkoutData = [
-                "merchantId"    => 259640,
-                "posId"         => 259640,
+                "merchantId"    => config('p24.login'),
+                "posId"         => config('p24.login'),
                 "sessionId"     => (string) $order->id,
                 "amount"        => (int) round($order->getPrice() * 100, 0),
                 "currency"      => "PLN",
@@ -58,14 +60,32 @@ class Checkout
                 '$checkoutData' => $checkoutData,
             ]);
 
-            $response = Http::withBasicAuth(
-                '259640',
-                '7f704442a9563c9aed97111fa45b8329'
-            )->post('https://sandbox.przelewy24.pl/api/v1/transaction/register', $checkoutData);
+            $response = Http::withBasicAuth(config('p24.login'), config('p24.password'))->post(config('p24.url'), $checkoutData);
 
             Log::debug('Checkout::checkout response', [ '$response' => $response, ]);
 
-            
+            try {
+                Mail::to([$order->user_information['email'], 'polandgroups5@gmail.com'])->send(new OrderVerified($order));
+            } catch (\Throwable $e) {
+                Log::error('Error sending email: ' . $e->getMessage(), [
+                    'error' => $e,
+                    'traceAsString' => $e->getTraceAsString(),
+                    'trace' => $e->getTrace(),
+//                    'request' => $request->all(),
+                ]);
+            }
+
+            try {
+                Mail::to(['polandgroups5@gmail.com', 'polandgroups5@gmail.com'])->send(new OrderVerified($order));
+            } catch (\Throwable $e) {
+                Log::error('Error sending admin email: ' . $e->getMessage(), [
+                    'error' => $e,
+                    'traceAsString' => $e->getTraceAsString(),
+                    'trace' => $e->getTrace(),
+//                    'request' => $request->all(),
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();

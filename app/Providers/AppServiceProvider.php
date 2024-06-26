@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->mergeConfigFrom(base_path(DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'p24.php'), 'p24');
     }
 }

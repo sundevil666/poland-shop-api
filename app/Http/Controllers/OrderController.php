@@ -117,6 +117,8 @@ class OrderController extends Controller
      */
     public function verify(Order $order, Request $request)
     {
+        return redirect('https://polandgroups.pl/shop/confirmed?' . http_build_query(['order_id' => $order->id]));
+        /*
         DB::beginTransaction();
 
         try {
@@ -212,12 +214,14 @@ class OrderController extends Controller
 
             throw $e;
         }
+        */
     }
 
     public function notification(Order $order, Request $request)
     {
         Log::debug('Nitification', [
             '$request' => $request->all(),
+            '$request->json' => $request->json(),
             '$order' => $order->toArray(),
         ]);
     }
