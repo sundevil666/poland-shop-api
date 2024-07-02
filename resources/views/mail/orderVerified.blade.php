@@ -7,7 +7,7 @@
 <body>
 
 <div style="font-size: 20px;">
-    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="1" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
+    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
         <tr>
             <td colspan="2" style="text-align: center">
                 <a href="https://polandgroups.pl/shop/">
@@ -30,7 +30,7 @@
             @foreach($order->items as $item)
             <td>{{$item->product->name}}</td>
             @endforeach
-            <td width="80%">{{$order->getClearPrice()}} zł</td>
+            <td>{{$order->getClearPrice()}} zł</td>
         </tr>
         <tr>
             <td>Kurier DPD, <strong>(Ulica dom klienta) Zagrodowa 3</strong></td>
@@ -46,16 +46,16 @@
         </tr>
     </table>
 
-    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="1" bgcolor="#f5f5f5" style="margin-bottom: 10px;>
+    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
         <tr>
-            <td colspan="3">Przewidywany czas dostawy {{ date('d.m.Y', strtotime("+3 day")) }} u Ciebie</td>
+            <td>Przewidywany czas dostawy {{ date('d.m.Y', strtotime("+3 day")) }} u Ciebie</td>
         </tr>
     </table>
 
-    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="1" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
+    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
         <tr>
             <td>Adres e-mail</td>
-            <td width="80%">{{$order->user_information['email']}}</td>
+            <td>{{$order->user_information['email']}}</td>
         </tr>
         <tr>
             <td>Firma</td>
@@ -87,43 +87,42 @@
         </tr>
     </table>
     @if (!empty($order->alt_deliver_information))
-    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="1" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
+    <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5">
         <tr>
-            <td width="60%">Proszę użyć innego adresu rozliczeniowego</td>
-            <td width="10%">--</td>
-            <td width="30%"></td>
+            <td>Proszę użyć innego adresu rozliczeniowego</td>
+            <td></td>
         </tr>
         <tr>
             <td>Imię</td>
-            <td width="30">{{$order->alt_deliver_information['fullname']}}</td>
+            <td>{{$order->alt_deliver_information['fullname']}}</td>
         </tr>
         <tr>
             <td>Firma</td>
-            <td width="30">{{$order->alt_deliver_information['business']}}</td>
+            <td>{{$order->alt_deliver_information['business']}}</td>
         </tr>
         <tr>
             <td>NIP UE</td>
-            <td width="30">{{$order->alt_deliver_information['nip_ue']}}</td>
+            <td>{{$order->alt_deliver_information['nip_ue']}}</td>
         </tr>
         <tr>
             <td>Adress</td>
-            <td width="30">{{$order->alt_deliver_information['address']}}</td>
+            <td>{{$order->alt_deliver_information['address']}}</td>
         </tr>
         <tr>
             <td>Kod pocztowy</td>
-            <td width="30">{{$order->alt_deliver_information['zip_code']}}</td>
+            <td>{{$order->alt_deliver_information['zip_code']}}</td>
         </tr>
         <tr>
             <td>Country</td>
-            <td width="30">{{$order->alt_deliver_information['country']}}</td>
+            <td>{{$order->alt_deliver_information['country']}}</td>
         </tr>
         <tr>
             <td>Miasto</td>
-            <td width="30">{{$order->alt_deliver_information['city']}}</td>
+            <td>{{$order->alt_deliver_information['city']}}</td>
         </tr>
         <tr>
             <td>Telefoniczny numer kontaktowy</td>
-            <td width="30">{{$order->alt_deliver_information['phone']}}</td>
+            <td>{{$order->alt_deliver_information['phone']}}</td>
         </tr>
     </table>
     @endif
