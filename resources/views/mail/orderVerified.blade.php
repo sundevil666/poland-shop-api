@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div style="font-size: 18px;">
+<div style="font-size: 16px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#eceff1">
         <tbody>
         <tr>
