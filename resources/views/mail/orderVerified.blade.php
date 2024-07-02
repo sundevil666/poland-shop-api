@@ -28,7 +28,7 @@
         </tr>
         <tr>
             @foreach($order->items as $item)
-            <td style="width: auto;" ">{{$item->product->name}}</td>
+            <td style="width: 480px;" ">{{$item->product->name}}</td>
             @endforeach
             <td style="width: 100%;">{{$order->getClearPrice()}} zł</td>
         </tr>
@@ -54,7 +54,7 @@
 
     <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5" style="margin-bottom: 10px;">
         <tr>
-            <td style="width: auto;">Adres e-mail</td>
+            <td style="width: 480px;">Adres e-mail</td>
             <td style="width: 100%;">{{$order->user_information['email']}}</td>
         </tr>
         <tr>
@@ -89,7 +89,7 @@
     @if (!empty($order->alt_deliver_information))
     <table width="100%" border="1px solid #999" cellpadding="5" cellspacing="0" bgcolor="#f5f5f5">
         <tr>
-            <td style="width: auto;">Proszę użyć innego adresu rozliczeniowego</td>
+            <td style="width: 480px;">Proszę użyć innego adresu rozliczeniowego</td>
             <td style="width: 100%;"></td>
         </tr>
         <tr>
