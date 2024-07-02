@@ -83,7 +83,7 @@
 
                     @if (!empty($order->alt_deliver_information))
                         <tr>
-                            <td align="center" style="padding:8px 0 0">
+                            <td align="center" style="padding:8px 0">
                                 <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
                                     <tbody>
 
