@@ -32,7 +32,7 @@ class CategoryController extends Controller
 
         $query->orderBy($sort['column'] ?? 'name', $sort['type'] ?? 'asc');
 
-        return CategoryResource::collection($query->paginate($validatedData['perPage'] ?? 20));
+        return CategoryResource::collection($query->paginate($validatedData['perPage'] ?? 2000));
     }
 
     /**
