@@ -82,40 +82,40 @@
                     </tr>
 
                     <tr>
-                        <td align="center" style="padding:8px 0">
+                        <td align="center" style="padding:16px 0">
                             <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
                                 <tbody>
                                 <tr>
-                                    <td style="width: 480px;">Adres e-mail</td>
-                                    <td style="width: 100%;">{{$order->user_information['email']}}</td>
+                                    <td style="padding: 0 16px;">Adres e-mail</td>
+                                    <td style="padding: 0 16px;">{{$order->user_information['email']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Firma</td>
-                                    <td>{{$order->deliver_information['business']}}</td>
+                                    <td style="padding: 0 16px;">Firma</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['business']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>NIP UE</td>
-                                    <td>{{$order->deliver_information['nip_ue']}}</td>
+                                    <td style="padding: 0 16px;">NIP UE</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['nip_ue']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Adress</td>
-                                    <td>{{$order->deliver_information['address']}}</td>
+                                    <td style="padding: 0 16px;">Adress</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['address']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Kod pocztowy</td>
-                                    <td>{{$order->deliver_information['zip_code']}}</td>
+                                    <td style="padding: 0 16px;">Kod pocztowy</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['zip_code']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Country</td>
-                                    <td>{{$order->deliver_information['country']}}</td>
+                                    <td style="padding: 0 16px;">Country</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['country']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Miasto</td>
-                                    <td>{{$order->deliver_information['city']}}</td>
+                                    <td style="padding: 0 16px;">Miasto</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['city']}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Telefoniczny numer kontaktowy</td>
-                                    <td>{{$order->deliver_information['phone']}}</td>
+                                    <td style="padding: 0 16px;">Telefoniczny numer kontaktowy</td>
+                                    <td style="padding: 0 16px;">{{$order->deliver_information['phone']}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -125,7 +125,7 @@
 
                     @if (!empty($order->alt_deliver_information))
                         <tr>
-                            <td align="center" style="padding:8px 0">
+                            <td align="center" style="padding-bottom:16px">
                                 <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
                                     <tbody>
 
