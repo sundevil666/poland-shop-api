@@ -21,10 +21,9 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $validatedData = $request->validate([
-            'sort' => 'array',
-            'perPage' => 'integer'
+            'sort'      => 'array',
+            'perPage'   => 'integer'
         ]);
-
 
         $sort = $validatedData['sort'] ?? [];
 
