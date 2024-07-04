@@ -81,6 +81,48 @@
                         </td>
                     </tr>
 
+                    <tr>
+                        <td align="center" style="padding:8px 0">
+                            <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
+                                <tbody>
+                                <tr>
+                                    <td style="width: 480px;">Adres e-mail</td>
+                                    <td style="width: 100%;">{{$order->user_information['email']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Firma</td>
+                                    <td>{{$order->deliver_information['business']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>NIP UE</td>
+                                    <td>{{$order->deliver_information['nip_ue']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Adress</td>
+                                    <td>{{$order->deliver_information['address']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kod pocztowy</td>
+                                    <td>{{$order->deliver_information['zip_code']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country</td>
+                                    <td>{{$order->deliver_information['country']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Miasto</td>
+                                    <td>{{$order->deliver_information['city']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Telefoniczny numer kontaktowy</td>
+                                    <td>{{$order->deliver_information['phone']}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+
                     @if (!empty($order->alt_deliver_information))
                         <tr>
                             <td align="center" style="padding:8px 0">
