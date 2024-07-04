@@ -4,6 +4,7 @@ namespace App\Http\Requests\Order;
 
 use App\Enums\Countries;
 use App\Enums\Gender;
+use App\Http\Controllers\ProductController;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,8 +27,8 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'user_id'                                       => ['integer', 'nullable'/*, 'exists:users,id'*/],
+        $rules = [
+//            'user_id'                                       => ['integer', 'nullable'/*, 'exists:users,id'*/],
             'user_information'                              => ['array', 'required'],
             'user_information.email'                        => ['required', 'string', 'email'],
             'user_information.fullname'                     => ['required', 'string', 'min:1'],
@@ -58,5 +59,11 @@ class StoreOrderRequest extends FormRequest
             'confirm_regulations_store'                     => ['boolean', 'required'],
             'confirm_privacy_policy'                        => ['boolean', 'required'],
         ];
+
+        if (!empty($this->get('user_id'))) {
+            $rules['user_id'] = ['integer', 'exists:users,id'];
+        }
+
+        return $rules;
     }
 }
