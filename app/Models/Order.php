@@ -22,6 +22,7 @@ class Order extends Model
         'alt_deliver_information',
         'confirm_regulations_store',
         'confirm_privacy_policy',
+        'comment',
     ];
 
     protected $casts = [

@@ -36,8 +36,8 @@ class StoreOrderRequest extends FormRequest
             'user_information.agree_to_receive_information' => ['required', 'boolean'],
             'deliver_information'                           => ['array', 'required'],
             'deliver_information.fullname'                  => ['required', 'string', 'min:1'],
-            'deliver_information.business'                  => [/*'required', */ 'nullable','string', 'min:1'],
-            'deliver_information.nip_ue'                    => [/*'required', */ 'nullable','string'],
+            'deliver_information.business'                  => [/*'required', */ 'nullable', 'string', 'min:1'],
+            'deliver_information.nip_ue'                    => [/*'required', */ 'nullable', 'string'],
             'deliver_information.address'                   => ['required', 'string'],
             'deliver_information.zip_code'                  => ['required', 'string'],
             'deliver_information.country'                   => ['required', 'string', new EnumValue(Countries::class)],
@@ -58,6 +58,7 @@ class StoreOrderRequest extends FormRequest
             'items.*.count'                                 => ['integer', 'required'],
             'confirm_regulations_store'                     => ['boolean', 'required'],
             'confirm_privacy_policy'                        => ['boolean', 'required'],
+            'comment'                                       => ['nullable', 'string', 'max:20000'],
         ];
 
         if (!empty($this->get('user_id'))) {
