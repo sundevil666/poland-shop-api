@@ -89,4 +89,24 @@ class Order extends Model
         $this->pid = $pid;
         $this->status = 2;
     }
+
+    public function calculateBoxPrice()
+    {
+        $price              = null;
+        $boxesTypes         = [];
+        $boxesCompleteness  = [];
+
+        foreach ($this->items as $item) {
+            /** @var Box $box */
+            $box = $item->product->box;
+            $boxesTypes[$box->id] = $box->size;
+            if (empty($boxesCompleteness[$box->id][1])) {
+                $boxesCompleteness[$box->id][1] = 0;
+            }
+
+
+        }
+
+        return round($price, 2);
+    }
 }
