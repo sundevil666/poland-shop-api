@@ -123,7 +123,7 @@
                     </tr>
 
 
-                    @if (!empty($order->alt_deliver_information))
+                    @if (!empty($order->alt_deliver_information['name']))
                         <tr>
                             <td align="center" style="padding-bottom:16px">
                                 <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">

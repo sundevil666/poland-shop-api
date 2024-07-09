@@ -37,28 +37,28 @@ class AuthController extends Controller
     public function clientRegistration(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'string|max:255',
-            'surname' => 'string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'gender' => ['string', new EnumValue(Gender::class)],
-            'agree_to_receive_information' => ['required', 'bool']
+            'name'                          => 'string|max:255',
+            'surname'                       => 'string|max:255',
+            'email'                         => 'required|string|email|max:255|unique:users',
+            'password'                      => 'required|string|min:8',
+            'gender'                        => ['nullable', 'string', new EnumValue(Gender::class)],
+            'agree_to_receive_information'  => ['required', 'bool']
         ]);
 
         $user = User::create([
-            'name' => $validatedData['name'] ?? null,
-            'surname' => $validatedData['surname'] ?? null,
-            'email' => $validatedData['email'],
-            'gender' => $validatedData['gender'] ?? null,
-            'password' => Hash::make($validatedData['password']),
+            'name'      => $validatedData['name'] ?? null,
+            'surname'   => $validatedData['surname'] ?? null,
+            'email'     => $validatedData['email'],
+            'gender'    => $validatedData['gender'] ?? null,
+            'password'  => Hash::make($validatedData['password']),
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user->fresh(),
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+            'user'          => $user->fresh(),
+            'access_token'  => $token,
+            'token_type'    => 'Bearer',
         ]);
     }
 }

@@ -21,18 +21,86 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $validatedData = $request->validate([
-            'sort' => 'array',
-            'perPage' => 'integer'
+            'sort'          => 'array',
+            'perPage'       => 'integer',
+            'parent_id'     => 'integer',
+            'category_id'   => 'integer',
         ]);
-
 
         $sort = $validatedData['sort'] ?? [];
 
-        $query = Category::with('products', 'parent', 'children');
+        $with = [];
+
+        if (!empty($request->get('with_products'))) {
+            $with[] = 'products';
+        }
+
+        if (!empty($request->get('with_parent'))) {
+            $with[] = 'parent';
+        }
+
+        if (!empty($request->get('with_child'))) {
+            $with[] = 'children';
+        }
+
+        if (!empty($request->get('with_children'))) {
+            $with[] = 'children';
+            $with[] = 'children.children';
+            $with[] = 'children.children.children';
+            $with[] = 'children.children.children.children';
+            $with[] = 'children.children.children.children.children';
+            $with[] = 'children.children.children.children.children.children';
+            $with[] = 'children.children.children.children.children.children.children';
+            $with[] = 'children.children.children.children.children.children.children.children';
+            $with[] = 'children.children.children.children.children.children.children.children.children';
+            $with[] = 'children.children.children.children.children.children.children.children.children.children';
+        }
+
+        $query = Category::with($with);
+
+        if (!empty($validatedData['parent_id'])) {
+            $query = $query->where('parent_id', $validatedData['parent_id']);
+        }
+
+        if (!empty($validatedData['category_id'])) {
+            $query = $query->where('id', $validatedData['category_id']);
+        }
+
+        if (!empty($request->get('only_top'))) {
+            $query = $query->whereNull('parent_id');
+        }
 
         $query->orderBy($sort['column'] ?? 'name', $sort['type'] ?? 'asc');
 
-        return CategoryResource::collection($query->paginate($validatedData['perPage'] ?? 20));
+        return CategoryResource::collection($query->paginate($validatedData['perPage'] ?? 2000));
+    }
+
+    public function tree(Request $request)
+    {
+        $validatedData = $request->validate([
+            'sort'      => 'array',
+            'perPage'   => 'integer'
+        ]);
+
+        $sort = $validatedData['sort'] ?? [];
+
+        $query = Category::with(
+            'parent',
+            'children',
+            'children.children',
+            'children.children.children',
+            'children.children.children.children',
+            'children.children.children.children.children',
+            'children.children.children.children.children.children',
+            'children.children.children.children.children.children.children',
+            'children.children.children.children.children.children.children.children',
+            'children.children.children.children.children.children.children.children.children',
+            'children.children.children.children.children.children.children.children.children.children',
+        );
+
+        $query->orderBy($sort['column'] ?? 'name', $sort['type'] ?? 'asc');
+
+        return CategoryResource::collection($query->paginate($validatedData['perPage'] ?? 2000));
     }
 
     /**

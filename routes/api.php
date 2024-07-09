@@ -49,8 +49,9 @@ Route::middleware(['auth:sanctum'])->post('/me/update', function (Request $reque
 });
 
 Route::controller(CategoryController::class)->prefix('categories')->group(function () {
-    Route::get('/', 'index');
+    Route::get('/tree', 'tree');
     Route::get('/{category}', 'show');
+    Route::get('/', 'index');
 
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::post('/', 'store');
