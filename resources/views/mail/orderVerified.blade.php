@@ -55,7 +55,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="padding: 0 16px;">Kurier DPD, <strong>(Ulica dom klienta) Zagrodowa 3</strong></td>
+                                    <td style="padding: 0 16px;">Kurier DPD</td>
                                     <td style="padding: 0 16px;">
                                         <div>{{$order->getBoxPrice()}} zł</div>
                                     </td>
@@ -116,6 +116,22 @@
                                 <tr>
                                     <td style="padding: 0 16px;">Telefoniczny numer kontaktowy</td>
                                     <td style="padding: 0 16px;">{{$order->deliver_information['phone']}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
+                                <tbody>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 0 16px;">Wiadomość</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0 16px;">Imię</td>
+                                    <td style="padding: 0 16px;">{{$order->comment}}</td>
                                 </tr>
                                 </tbody>
                             </table>
