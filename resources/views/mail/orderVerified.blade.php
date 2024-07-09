@@ -55,7 +55,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td style="padding: 0 16px;">Kurier DPD, <strong>(Ulica dom klienta) Zagrodowa 3</strong></td>
+                                    <td style="padding: 0 16px;">Kurier DPD></td>
                                     <td style="padding: 0 16px;">
                                         <div>{{$order->getBoxPrice()}} zł</div>
                                     </td>
