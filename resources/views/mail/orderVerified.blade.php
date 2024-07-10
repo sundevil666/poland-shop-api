@@ -122,7 +122,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td align="center" style="padding:16px 0">
                             <table cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#ffffff">
                                 <tbody>
 
