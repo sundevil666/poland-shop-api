@@ -92,19 +92,31 @@ class Order extends Model
 
     public function calculateBoxPrice()
     {
-        $price              = null;
-        $boxesTypes         = [];
+        $price              = 0;
+//        $boxesTypes         = [];
         $boxesCompleteness  = [];
 
         foreach ($this->items as $item) {
             /** @var Box $box */
-            $box = $item->product->box;
-            $boxesTypes[$box->id] = $box->size;
+            $box                    = $item->product->box;
+//            $boxesTypes[$box->id]   = $box->size;
             if (empty($boxesCompleteness[$box->id][1])) {
                 $boxesCompleteness[$box->id][1] = 0;
+                $price += $box->price;
             }
 
-
+            foreach ($boxesCompleteness[$box->id] as $boxesCompletenessItemIndex => $boxesCompletenessItem) {
+                $currentIndex = $boxesCompletenessItemIndex;
+                for ($i = 1; $i <= $item->count; $i++) {
+                    if ($boxesCompleteness[$box->id][$boxesCompletenessItemIndex] + $item->product->size > $box->size) {
+                        $currentIndex = count($boxesCompleteness[$box->id]);
+                        $boxesCompleteness[$box->id][$currentIndex] = $item->product->size;
+                        $price += $box->price;
+                    } else {
+                        $boxesCompleteness[$box->id][$currentIndex] += $item->product->size;
+                    }
+                }
+            }
         }
 
         return round($price, 2);

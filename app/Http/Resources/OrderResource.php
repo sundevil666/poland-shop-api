@@ -12,6 +12,7 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
+        $boxPrice = $this->calculateBoxPrice();
         /** @var Order $this */
         return [
             'id'                        => $this->id,
@@ -24,8 +25,9 @@ class OrderResource extends JsonResource
             'alt_deliver_information'   => $this->alt_deliver_information,
             'confirm_regulations_store' => $this->confirm_regulations_store,
             'confirm_privacy_policy'    => $this->confirm_privacy_policy,
-            'price'                     => $this->getPrice(),
-            'deliver_price'             => $this->getBoxPrice(),
+            'price'                     => $this->getClearPrice() + $boxPrice,
+//            'deliver_price'             => $this->getBoxPrice(),
+            'deliver_price'             => $boxPrice,
             'created_at'                => $this->created_at,
         ];
     }
