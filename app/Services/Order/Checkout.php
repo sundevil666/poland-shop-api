@@ -25,8 +25,7 @@ class Checkout
 
             $signData = [
                 'sessionId'     => (string) $order->id,
-                'merchantId'    => 259640,
-//                'orderId'       => (int) $order->id,
+                'merchantId'    => (int) config('p24.login'),
                 'amount'        => (int) round($order->getPrice() * 100, 0),
                 "currency"      => "PLN",
                 'crc'           => config('p24.crc'),
@@ -34,8 +33,8 @@ class Checkout
             $sign = hash('sha384', json_encode($signData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) );
 
             $checkoutData = [
-                "merchantId"    => 259640,
-                "posId"         => 259640,
+                "merchantId"    => (int) config('p24.login'),
+                "posId"         => (int) config('p24.login'),
                 "sessionId"     => (string) $order->id,
                 "amount"        => (int) round($order->getPrice() * 100, 0),
                 "currency"      => "PLN",
@@ -46,8 +45,7 @@ class Checkout
                 "phone"         => (string) ($order->user_information['phone'] ?? null),
                 "language"      => "PL",
                 "method"        => 0,
-//                "urlReturn"     => url("/api/orders/{$order->id}/verify"),
-                "urlReturn"     => 'https://polandgroups.pl/shop/confirmed',
+                "urlReturn"     => url("/api/orders/{$order->id}/verify"),
                 "urlStatus"     => url("/api/orders/{$order->id}/notification"),
                 "channel"       => 12294,
                 "shipping"      => $order->getBoxPrice() * 100,

@@ -127,17 +127,16 @@ class OrderController extends Controller
 
             $signData = [
                 'sessionId' => (string) $order->id,
-//                'merchantId'=> 259640,
                 'orderId'   => (int) $order->id,
                 'amount'    => (int) round($order->getPrice() * 100, 0),
                 "currency"  => "PLN",
-                'crc'       => 'f68aa7d7522f2307',
+                'crc'       => config('p24.crc'),
             ];
             $sign = hash('sha384', json_encode($signData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
             $verifyData = [
-                "merchantId"=> 259640,
-                "posId"     => 259640,
+                "merchantId"=> (int) config('p24.login'),
+                "posId"     => (int) config('p24.login'),
                 "sessionId" => (string) $order->id,
                 "amount"    => (int) round($order->getPrice() * 100, 0),
                 "currency"  => "PLN",
@@ -152,9 +151,9 @@ class OrderController extends Controller
             ]);
 
             $response = Http::withBasicAuth(
-                '259640',
-                '7f704442a9563c9aed97111fa45b8329'
-            )->put('https://sandbox.przelewy24.pl/api/v1/transaction/verify', $verifyData);
+                config('p24.login'),
+                config('p24.password')
+            )->put(config('p24.url') . '/transaction/verify', $verifyData);
 
             Log::debug('OrderController::verify response', [
                 '$response'                 => $response,
