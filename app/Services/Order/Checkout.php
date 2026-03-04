@@ -63,7 +63,13 @@ class Checkout
                 config('p24.password')
             )->post(config('p24.url') . '/transaction/register', $checkoutData);
 
-            Log::debug('Checkout::checkout response', [ '$response' => $response, ]);
+            Log::debug('Checkout::checkout response', [ 
+                '$response' => $response,
+                '$response->body()' => $response->body(),
+                '$response->json()' => $response->json(),
+                'config(p24.url)' => config('p24.url'),
+                'config(p24.login)' => config('p24.login'),
+            ]);
 
             try {
                 Mail::to([$order->user_information['email'], config('mail.from.address')])->send(new OrderVerified($order));
