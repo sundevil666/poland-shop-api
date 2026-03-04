@@ -47,7 +47,6 @@ class Checkout
                 "method"        => 0,
                 "urlReturn"     => url("/api/orders/{$order->id}/verify"),
                 "urlStatus"     => url("/api/orders/{$order->id}/notification"),
-                "channel"       => 12294,
                 "shipping"      => $order->getBoxPrice() * 100,
                 "sign"          => $sign,
             ];
